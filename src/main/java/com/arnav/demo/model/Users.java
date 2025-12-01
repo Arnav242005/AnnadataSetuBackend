@@ -1,6 +1,7 @@
 package com.arnav.demo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +27,7 @@ public class Users {
 
     @Column(length = 30,unique = true)
     @NotNull(message="Email must not be empty")
+    @Email
     private String email;
 
     @Column(length = 10,unique = true)
