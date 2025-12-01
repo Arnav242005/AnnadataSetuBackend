@@ -52,9 +52,6 @@ public class Users {
     @OneToOne(mappedBy = "user")
     private Alternate_Shipping_Address asa;
 
-    @OneToMany(mappedBy = "farmer")
-    private List<Farmers_Listings> listings;
-
     @OneToOne(mappedBy = "user")
     private Farmer farmer;
 

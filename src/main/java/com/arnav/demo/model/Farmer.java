@@ -29,4 +29,8 @@ public class Farmer {
     @NotNull
     @Column(length = 20)
     private String land_area;
+
+    @OneToMany(mappedBy = "farmer")
+    private List<Farmers_Listings> listings;
+
 }
