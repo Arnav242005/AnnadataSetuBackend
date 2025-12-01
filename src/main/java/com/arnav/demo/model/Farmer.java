@@ -17,6 +17,11 @@ public class Farmer {
     @Id
     private int farmer_id;
 
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "farmer_id")
+    private Users user;
+
     @NotNull
     @Column(length = 40)
     private String farm_location;

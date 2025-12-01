@@ -52,7 +52,28 @@ public class Users {
     @OneToOne(mappedBy = "user")
     private Alternate_Shipping_Address asa;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "farmer")
     private List<Farmers_Listings> listings;
+
+    @OneToOne(mappedBy = "user")
+    private Farmer farmer;
+
+    @OneToOne(mappedBy = "user")
+    private Restaurant restaurant;
+
+    @OneToOne(mappedBy = "user")
+    private Ngo ngo;
+
+    @OneToOne(mappedBy = "user")
+    private Government government;
+
+    @OneToMany(mappedBy = "buyer", fetch = FetchType.LAZY)
+    private List<Order> orders;
+
+    @OneToMany(mappedBy = "payer", fetch = FetchType.LAZY)
+    private List<Payment> paymentsMade;
+
+    @OneToMany(mappedBy = "payee", fetch = FetchType.LAZY)
+    private List<Payment> paymentsReceived;
 
 }

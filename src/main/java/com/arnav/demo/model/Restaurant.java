@@ -15,6 +15,11 @@ public class Restaurant {
     @Id
     private int restaurant_id;
 
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "restaurant_id")
+    private Users user;
+
     @NotNull
     @Column(unique = true,length = 30)
     private String restaurant_name;

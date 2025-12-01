@@ -1,8 +1,6 @@
 package com.arnav.demo.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +14,11 @@ public class Government {
 
     @Id
     private int govt_id;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "govt_id")
+    private Users user;
 
     @NotNull
     @Column(length = 20)
