@@ -23,4 +23,8 @@ public class Ngo {
     @Column(length = 20,unique = true)
     @NotNull
     private String registration_no;
+
+    @Column(length = 30)
+    @NotNull
+    private String focus_area;
 }
