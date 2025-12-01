@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -39,4 +40,8 @@ public class Order {
     private Date order_date;
 
     private Date delivery_date;
+
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    private List<Payment> payments;
+
 }
