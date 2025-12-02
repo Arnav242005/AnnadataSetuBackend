@@ -42,7 +42,7 @@ public class Order {
 
     private Date delivery_date;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-    private List<Payment> payments;
+    @OneToOne(mappedBy = "order", fetch = FetchType.LAZY)
+    private Payment payments;
 
 }

@@ -15,7 +15,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity security){
         security
                 .csrf(customizer -> customizer.disable())
-                .authorizeHttpRequests(request -> request.anyRequest().authenticated());
+                .authorizeHttpRequests(request -> request.anyRequest().permitAll());
         return security.build();
     }
 }
