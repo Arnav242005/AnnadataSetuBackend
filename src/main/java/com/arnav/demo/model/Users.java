@@ -19,22 +19,23 @@ public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int user_id;
+    @Column(name = "user_id")
+    private int userId;
 
-    @Column(length = 50)
+    @Column(length = 50,name = "full_name")
     @NotNull
-    private String full_name;
+    private String fullName;
 
     @Column(length = 30,unique = true)
     @NotNull(message="Email must not be empty")
     @Email
     private String email;
 
-    @Column(length = 10,unique = true)
+    @Column(length = 10,unique = true,name = "phone_no")
     @NotNull
-    private String phone_no;
+    private String phoneNo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private UserRoles userRoles;
 
@@ -45,25 +46,25 @@ public class Users {
     @NotNull
     private Date createdAt;
 
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "user")
     private List<Feedback> feedbacks;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Permanent_Shipping_Address psa;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Alternate_Shipping_Address asa;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Farmer farmer;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Restaurant restaurant;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Ngo ngo;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Government government;
 
     @OneToMany(mappedBy = "buyer", fetch = FetchType.LAZY)

@@ -16,7 +16,8 @@ public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int payment_id;
+    @Column(name = "payment_id")
+    private int paymentId;
 
     @OneToOne
     @JoinColumn(name = "order_id")
@@ -31,17 +32,19 @@ public class Payment {
     private Users payee;
 
     @NotNull
-    private String payment_mode;
+    @Column(name = "payment_mode")
+    private String paymentMode;
 
     @NotNull
-    private String payment_status;
+    @Column(name = "payment_status")
+    private String paymentStatus;
 
     @NotNull
     private double amount;
 
-    @Column(columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
-    private Date payment_date;
+    @Column(columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP",name = "payment_date")
+    private Date paymentDate;
 
-    @Column(unique = true, length = 50)
-    private String transaction_id;
+    @Column(unique = true, length = 50,name = "transaction_id")
+    private String transactionId;
 }

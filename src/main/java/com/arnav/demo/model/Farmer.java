@@ -15,7 +15,8 @@ import java.util.List;
 public class Farmer {
 
     @Id
-    private int farmer_id;
+    @Column(name = "farmer_id")
+    private int farmerId;
 
     @OneToOne
     @MapsId
@@ -23,12 +24,12 @@ public class Farmer {
     private Users user;
 
     @NotNull
-    @Column(length = 40)
-    private String farm_location;
+    @Column(length = 40,name = "farm_location")
+    private String farmLocation;
 
     @NotNull
-    @Column(length = 20)
-    private String land_area;
+    @Column(length = 20,name = "land_area")
+    private String landArea;
 
     @OneToMany(mappedBy = "farmer")
     private List<Farmers_Listings> listings;

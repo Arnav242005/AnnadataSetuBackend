@@ -13,7 +13,8 @@ import lombok.NoArgsConstructor;
 public class Government {
 
     @Id
-    private int govt_id;
+    @Column(name = "govt_id")
+    private int govtId;
 
     @OneToOne
     @MapsId
@@ -21,8 +22,8 @@ public class Government {
     private Users user;
 
     @NotNull
-    @Column(length = 20)
-    private String department_name;
+    @Column(length = 20,name = "department_name")
+    private String departmentName;
 
     @NotNull
     @Column(length = 30)

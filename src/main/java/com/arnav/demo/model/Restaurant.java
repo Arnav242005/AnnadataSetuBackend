@@ -13,7 +13,8 @@ import lombok.NoArgsConstructor;
 public class Restaurant {
 
     @Id
-    private int restaurant_id;
+    @Column(name = "restaurant_id")
+    private int restaurantId;
 
     @OneToOne
     @MapsId
@@ -21,10 +22,10 @@ public class Restaurant {
     private Users user;
 
     @NotNull
-    @Column(unique = true,length = 30)
-    private String restaurant_name;
+    @Column(unique = true,length = 30,name = "restaurant_name")
+    private String restaurantName;
 
     @NotNull
-    @Column(unique = true,length = 20)
-    private String license_no;
+    @Column(unique = true,length = 20,name = "license_no")
+    private String licenseNo;
 }

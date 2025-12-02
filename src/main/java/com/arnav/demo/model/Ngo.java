@@ -13,21 +13,22 @@ import lombok.NoArgsConstructor;
 public class Ngo {
 
     @Id
-    private int ngo_id;
+    @Column(name = "ngo_id")
+    private int ngoId;
 
     @OneToOne
     @MapsId
     @JoinColumn(name = "ngo_id")
     private Users user;
 
-    @Column(length = 30)
-    private String ngo_name;
+    @Column(length = 30,name = "ngo_name")
+    private String ngoName;
 
-    @Column(length = 20,unique = true)
+    @Column(length = 20,unique = true,name = "registration_no")
     @NotNull
-    private String registration_no;
+    private String registrationNo;
 
-    @Column(length = 30)
+    @Column(length = 30,name = "focus_area")
     @NotNull
-    private String focus_area;
+    private String focusArea;
 }

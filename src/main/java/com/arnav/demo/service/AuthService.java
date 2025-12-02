@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Date;
+
 @Service
 public class AuthService {
 
@@ -34,17 +36,18 @@ public class AuthService {
             return "Email Already Exists";
         }
 
-        if(usersRepo.existsByPhoneNo(request.phone_no())){
+        if(usersRepo.existsByPhoneNo(request.phoneNo())){
             return "Phone number is already exists !";
         }
 
-        UserRoles role = userRolesRepo.findById(request.role_id())
+        UserRoles role = userRolesRepo.findById(request.roleId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NO_CONTENT,"Role not found"));
 
         Users user = new Users();
-        user.setFull_name(request.full_name());
+        user.setFullName(request.fullName());
         user.setEmail(request.email());
-        user.setPhone_no(request.phone_no());
+        user.setPhoneNo(request.phoneNo());
+        user.setCreatedAt(new Date());
         user.setPassword_hash(passwordEncoder.encode(request.password()));
         user.setUserRoles(role);
 
@@ -66,9 +69,9 @@ public class AuthService {
 
         return new LoginResponse(
                 token,
-                user.getUserRoles().getUser_roles(),
-                user.getFull_name(),
-                user.getUser_id()
+                user.getUserRoles().getUserRoles(),
+                user.getFullName(),
+                user.getUserId()
         );
     }
 }

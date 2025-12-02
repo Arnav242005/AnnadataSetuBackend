@@ -1,10 +1,10 @@
 package com.arnav.demo.model.dto;
 
 public record RegisterRequest(
-        String full_name,
+        String fullName,
         String email,
-        String phone_no,
+        String phoneNo,
         String password,
-        int role_id
+        int roleId
 ) {
 }

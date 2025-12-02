@@ -18,7 +18,8 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int order_id;
+    @Column(name = "order_id")
+    private int orderId;
 
     @ManyToOne
     @JoinColumn(name = "listing_id")
@@ -32,15 +33,18 @@ public class Order {
     private double quantity;
 
     @NotNull
-    private double total_price;
+    @Column(name = "total_price")
+    private double totalPrice;
 
     @NotNull
-    private String order_status;  // Pending, Confirmed, Delivered, Cancelled
+    @Column(name = "order_status")
+    private String orderStatus;  // Pending, Confirmed, Delivered, Cancelled
 
-    @Column(columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
-    private Date order_date;
+    @Column(columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP",name = "order_date")
+    private Date orderDate;
 
-    private Date delivery_date;
+    @Column(name = "delivery_date")
+    private Date deliveryDate;
 
     @OneToOne(mappedBy = "order", fetch = FetchType.LAZY)
     private Payment payments;

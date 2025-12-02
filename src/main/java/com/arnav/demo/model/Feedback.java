@@ -22,5 +22,5 @@ public class Feedback {
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    private Users users;
+    private Users user;
 }
