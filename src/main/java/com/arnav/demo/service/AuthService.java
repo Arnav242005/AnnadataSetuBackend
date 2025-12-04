@@ -62,7 +62,7 @@ public class AuthService {
                 .orElseThrow(() -> new RuntimeException("User Not Found"));
 
         if(!passwordEncoder.matches(request.password(),user.getPassword_hash())){
-            throw new RuntimeException("Invalid Password");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Invalid Credentials");
         }
 
         String token = jwtService.generateToken(user);
