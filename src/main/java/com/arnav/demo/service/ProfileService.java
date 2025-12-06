@@ -39,32 +39,28 @@ public class ProfileService {
         dto.setCreatedAt(user.getCreatedAt().toString());
 
         // -------- Permanent Address --------
-        if (user.getPsa() != null) {
+        permanentRepo.findByUser(user).ifPresent(psa -> {
             dto.setPermanentAddress(
-                    new AddressDTO(
-                            user.getPsa().getId(),
-                            user.getPsa().getAddress(),
-                            user.getPsa().getCity(),
-                            user.getPsa().getState(),
-                            user.getPsa().getPincode(),
-                            user.getPsa().getLandmark()
-                    )
+                    new AddressDTO(psa.getId(),
+                            psa.getAddress(),
+                            psa.getCity(),
+                            psa.getState(),
+                            psa.getPincode(),
+                            psa.getLandmark())
             );
-        }
+        });
 
-        // -------- Alternate Address --------
-        if (user.getAsa() != null) {
+        // 🔥 Fetch Alternate Address (unidirectional)
+        alternateRepo.findByUser(user).ifPresent(asa -> {
             dto.setAlternateAddress(
-                    new AddressDTO(
-                            user.getAsa().getId(),
-                            user.getAsa().getAddress(),
-                            user.getAsa().getCity(),
-                            user.getAsa().getState(),
-                            user.getAsa().getPincode(),
-                            user.getAsa().getLandmark()
-                    )
+                    new AddressDTO(asa.getId(),
+                            asa.getAddress(),
+                            asa.getCity(),
+                            asa.getState(),
+                            asa.getPincode(),
+                            asa.getLandmark())
             );
-        }
+        });
 
         // -------- Role-Based Extra Details --------
         switch (dto.getRole()) {
