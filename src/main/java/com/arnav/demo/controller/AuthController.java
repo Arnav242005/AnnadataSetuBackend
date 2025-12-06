@@ -3,6 +3,7 @@ package com.arnav.demo.controller;
 import com.arnav.demo.model.dto.LoginRequest;
 import com.arnav.demo.model.dto.LoginResponse;
 import com.arnav.demo.model.dto.RegisterRequest;
+import com.arnav.demo.model.dto.RegisterResponse;
 import com.arnav.demo.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterRequest request){
+    public ResponseEntity<RegisterResponse> register(@RequestBody RegisterRequest request){
         return ResponseEntity.ok(authService.register(request));
     }
 

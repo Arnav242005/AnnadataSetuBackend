@@ -17,16 +17,5 @@ public interface UsersRepo extends JpaRepository<Users,Integer> {
 
     Optional<Users> findByEmail(String email);
 
-    @Query("""
-SELECT new com.arnav.demo.model.dto.UserProfileDTO(
-    u.userId,
-    u.fullName,
-    u.email,
-    u.phoneNo,
-    u.userRoles.userRoles
-)
-FROM Users u
-WHERE u.email = :email
-""")
-    UserProfileDTO findProjectedByEmail(String email);
+    Optional<Users> findProjectedByEmail(String email);
 }

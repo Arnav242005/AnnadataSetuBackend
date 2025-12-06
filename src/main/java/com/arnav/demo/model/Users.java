@@ -53,8 +53,6 @@ public class Users {
     @NotNull
     private Date createdAt;
 
-    // ----- RELATIONS (marked JsonIgnore to avoid recursion) -----
-
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     @ToString.Exclude

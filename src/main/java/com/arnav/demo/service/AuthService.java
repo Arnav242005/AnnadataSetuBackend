@@ -6,6 +6,7 @@ import com.arnav.demo.model.Users;
 import com.arnav.demo.model.dto.LoginRequest;
 import com.arnav.demo.model.dto.LoginResponse;
 import com.arnav.demo.model.dto.RegisterRequest;
+import com.arnav.demo.model.dto.RegisterResponse;
 import com.arnav.demo.repo.UserRolesRepo;
 import com.arnav.demo.repo.UsersRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +32,17 @@ public class AuthService {
     @Autowired
     private JwtService jwtService;
 
-    public String register(RegisterRequest request){
+    public RegisterResponse register(RegisterRequest request){
         if(usersRepo.existsByEmail(request.email())){
-            return "Email Already Exists";
+            return new RegisterResponse(
+                    null,"Email Already Exists"
+            );
         }
 
         if(usersRepo.existsByPhoneNo(request.phoneNo())){
-            return "Phone number is already exists !";
+            return new RegisterResponse(
+                    null,"Phone Already Exists"
+            );
         }
 
         UserRoles role = userRolesRepo.findById(request.roleId())
@@ -53,7 +58,9 @@ public class AuthService {
 
         usersRepo.save(user);
 
-        return "User registered sucessfully";
+        return new RegisterResponse(
+                user.getUserId(),"Registered Successfully"
+        );
     }
 
     public LoginResponse login(LoginRequest request){
