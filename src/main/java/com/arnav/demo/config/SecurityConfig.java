@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -25,36 +26,46 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception {
+
         security
                 .csrf(csrf -> csrf.disable())
-                .exceptionHandling(ex -> ex
-                        .authenticationEntryPoint(customAuthEntryPoint)
+                .sessionManagement(sess ->
+                        sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .exceptionHandling(ex ->
+                        ex.authenticationEntryPoint(customAuthEntryPoint)
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .authenticationProvider(noopAuthProvider()) // IMPORTANT FIX
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+                // 🔥 This prevents Spring from generating default login/password
+                .authenticationProvider(dummyAuthProvider())
+
+                // 🔥 Add your JWT filter
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return security.build();
     }
 
     @Bean
-    public AuthenticationProvider noopAuthProvider() {
+    public AuthenticationProvider dummyAuthProvider() {
         return new AuthenticationProvider() {
+
             @Override
-            public org.springframework.security.core.Authentication authenticate(org.springframework.security.core.Authentication authentication) {
-                return null; // Reject all — JWT will authenticate instead
+            public Authentication authenticate(Authentication authentication) {
+                // Always return null: means “I do not authenticate anything”
+                return null;
             }
 
             @Override
             public boolean supports(Class<?> authentication) {
-                return false; // Don't handle any auth types
+                return true; // This prevents Spring from adding a default provider
             }
         };
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {

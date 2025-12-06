@@ -1,12 +1,15 @@
 package com.arnav.demo.Security;
 
 import com.arnav.demo.model.Users;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
+import java.security.SignatureException;
 import java.util.Date;
 
 @Service
@@ -31,11 +34,33 @@ public class JwtService {
     }
 
     public String extractEmail(String token) {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(getSigningKey())
+                    .build()
+                    .parseClaimsJws(token)   // ✔ validates signature & expiration
+                    .getBody()
+                    .getSubject();
+
+        } catch (ExpiredJwtException e) {
+            throw new RuntimeException("Token expired");
+
+        } catch (MalformedJwtException e) {
+            throw new RuntimeException("Invalid JWT format");
+
+        } catch (Exception e) {
+            throw new RuntimeException("Invalid token");
+        }
+    }
+
+    public Date extractExpiration(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
-                .getSubject();
+                .getExpiration();
     }
+
+
 }

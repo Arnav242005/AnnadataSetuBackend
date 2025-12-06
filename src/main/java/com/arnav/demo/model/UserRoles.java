@@ -1,10 +1,12 @@
 package com.arnav.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -25,5 +27,7 @@ public class UserRoles {
     private String userRoles;
 
     @OneToMany(mappedBy = "userRoles")
+    @JsonIgnore
+    @ToString.Exclude
     private List<Users> users;
 }

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 
 @Component
@@ -38,22 +37,38 @@ public class JwtFilter extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
 
             String token = authHeader.substring(7);
-            String email = jwtService.extractEmail(token);
 
-            Users user = userRepository.findByEmail(email).orElse(null);
+            try {
+                // 🔥 VALIDATE token fully (signature + expiration + structure)
+                String email = jwtService.extractEmail(token);
 
-            if (user != null) {
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(
-                                user, null, Collections.singletonList(
-                                new SimpleGrantedAuthority("ROLE_" + user.getUserRoles().getUserRoles())
-                        ));
+                // Proceed only if no authentication exists yet
+                if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+                    Users user = userRepository.findByEmail(email).orElse(null);
+
+                    if (user != null) {
+
+                        SimpleGrantedAuthority authority =
+                                new SimpleGrantedAuthority("ROLE_" + user.getUserRoles().getUserRoles());
+
+                        UsernamePasswordAuthenticationToken authToken =
+                                new UsernamePasswordAuthenticationToken(
+                                        email,
+                                        null,
+                                        Collections.singletonList(authority)
+                                );
+
+                        SecurityContextHolder.getContext().setAuthentication(authToken);
+                    }
+                }
+            }
+            catch (Exception ex) {
+                // 🔥 IMPORTANT: If token is invalid → DO NOT authenticate
+                System.out.println("JWT ERROR: " + ex.getMessage());
             }
         }
 
         filterChain.doFilter(request, response);
     }
 }
-
