@@ -38,7 +38,6 @@ public class ProfileService {
         dto.setRole(user.getUserRoles().getUserRoles());
         dto.setCreatedAt(user.getCreatedAt().toString());
 
-        // -------- Permanent Address --------
         permanentRepo.findByUser(user).ifPresent(psa -> {
             dto.setPermanentAddress(
                     new AddressDTO(psa.getId(),
@@ -50,7 +49,6 @@ public class ProfileService {
             );
         });
 
-        // 🔥 Fetch Alternate Address (unidirectional)
         alternateRepo.findByUser(user).ifPresent(asa -> {
             dto.setAlternateAddress(
                     new AddressDTO(asa.getId(),
@@ -62,7 +60,6 @@ public class ProfileService {
             );
         });
 
-        // -------- Role-Based Extra Details --------
         switch (dto.getRole()) {
 
             case "FARMER" -> {
