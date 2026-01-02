@@ -41,10 +41,8 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
 
-                // 🔥 This prevents Spring from generating default login/password
                 .authenticationProvider(dummyAuthProvider())
 
-                // 🔥 Add your JWT filter
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return security.build();
