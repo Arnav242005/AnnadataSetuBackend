@@ -3,6 +3,7 @@ package com.arnav.demo.service;
 import com.arnav.demo.model.Farmer;
 import com.arnav.demo.model.Farmers_Listings;
 import com.arnav.demo.model.dto.FarmerListingsDTO;
+import com.arnav.demo.model.dto.FarmersListingsResponseDTO;
 import com.arnav.demo.repo.FarmerRepo;
 import com.arnav.demo.repo.Farmers_ListingsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,25 @@ public class FarmerListingsService {
         return "Success";
     }
 
-    public List<Farmers_Listings> getFarmerListings(Integer farmerId) {
-        return farmersListingsRepo.findByFarmerFarmerId(farmerId);
-    }
+    public List<FarmersListingsResponseDTO> getFarmerListings(Integer farmerId) {
+        List<Farmers_Listings> listings =
+                farmersListingsRepo.findByFarmerFarmerId(farmerId);
+
+        return listings.stream()
+                .map(listing -> {
+                    Farmer farmer = listing.getFarmer();
+
+                    return new FarmersListingsResponseDTO(
+                            listing.getListingId(),
+                            farmer.getFarmerId(),
+                            farmer.getUser().getFullName(),
+                            farmer.getFarmLocation(),
+                            listing.getTypeOfCrop(),
+                            listing.getQuantityAvailable(),
+                            listing.getUnitPrice(),
+                            listing.getStatus(),
+                            listing.getPostDate()
+                    );
+                })
+                .toList();    }
 }

@@ -2,6 +2,7 @@ package com.arnav.demo.controller;
 
 import com.arnav.demo.model.Farmers_Listings;
 import com.arnav.demo.model.dto.FarmerListingsDTO;
+import com.arnav.demo.model.dto.FarmersListingsResponseDTO;
 import com.arnav.demo.service.FarmerListingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class FarmerListingsController {
     }
 
     @GetMapping("/{farmerId}/listings")
-    public ResponseEntity<List<Farmers_Listings>> getListings(
+    public ResponseEntity<List<FarmersListingsResponseDTO>> getListings(
             @PathVariable Integer farmerId) {
         return ResponseEntity.ok(service.getFarmerListings(farmerId));
     }
